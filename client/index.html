@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Server Message</title>
+    <script>
+      async function fetchServerMessage() {
+        try {
+          const response = await fetch('http://localhost:3000')
+          const message = await response.text()
+          document.getElementById('serverMessage').innerText = message
+        } catch (error) {
+          document.getElementById('serverMessage').innerText =
+            'Failed to connect to server.'
+          console.error('Error fetching server message:', error)
+        }
+      }
+
+      window.onload = fetchServerMessage
+    </script>
+  </head>
+  <body>
+    <h1>Server Message</h1>
+    <p id="serverMessage">Loading...</p>
+  </body>
+</html>
