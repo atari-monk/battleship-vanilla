@@ -1,12 +1,10 @@
 {
-  "name": "client",
+  "name": "shared",
   "version": "1.0.0",
+  "type": "module",
   "main": "src/index.js",
   "scripts": {},
   "keywords": [],
   "author": "",
-  "description": "",
-  "dependencies": {
-    "shared": "*"
-  }
+  "description": ""
 }

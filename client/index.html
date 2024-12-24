@@ -27,7 +27,11 @@
       <!-- Messages will appear here -->
     </div>
 
-    <script>
+    <script type="module">
+      import { getRandomNumber } from '/shared/src/index.js'
+
+      console.log(getRandomNumber(1, 10))
+
       const socket = io('http://localhost:3000', {
         cors: {
           origin: '*',
