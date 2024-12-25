@@ -2,9 +2,11 @@
   "name": "battleship-vanilla-monorepo",
   "private": true,
   "workspaces": [
+    "shared",
+    "server_lib",
     "server",
-    "client",
-    "shared"
+    "client_lib",
+    "client"
   ],
   "dependencies": {
     "cors": "^2.8.5",

@@ -1,0 +1,10 @@
+{
+  "name": "server_lib",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "description": ""
+}
