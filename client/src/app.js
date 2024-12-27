@@ -16,5 +16,4 @@ new ClientPing(socket, 'messages')
 
 const playerIdService = new PlayerIdService()
 const playerId = playerIdService.getPlayerId()
-console.log(playerId)
 new SocketService(socket, playerId)

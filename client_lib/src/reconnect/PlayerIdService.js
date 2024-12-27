@@ -14,7 +14,7 @@ export class PlayerIdService {
   }
 
   generateUniqueId() {
-    return 'player-' + Math.random().toString(36).substr(2, 9)
+    return 'player-' + Math.random().toString(36).slice(2, 9)
   }
 
   getPlayerId() {

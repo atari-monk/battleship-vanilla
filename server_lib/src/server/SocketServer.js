@@ -2,6 +2,7 @@ import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
 import cors from 'cors'
+import { SocketEvents } from 'shared'
 
 export class SocketServer {
   constructor(port = 3000) {
@@ -21,14 +22,10 @@ export class SocketServer {
   }
 
   initializeSocketHandlers() {
-    this.io.on('connection', (socket) => {
-      console.log('New client connected')
-
+    this.io.on(SocketEvents.Server.CONNECTION, (socket) => {
       this.handlers.forEach((handler) => handler(socket))
 
-      socket.on('disconnect', () => {
-        console.log('Client disconnected')
-      })
+      socket.on(SocketEvents.Client.DISCONNECT, () => {})
     })
   }
 

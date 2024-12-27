@@ -9,22 +9,28 @@ export class SocketService {
   }
 
   setupListeners() {
-    this.socket.on(SocketEvents.Client.CONNECT, () => {
-      console.log(`Connected with player ID: ${this.playerId}`)
-      this.registerPlayer()
-    })
+    this.socket.on(SocketEvents.Client.CONNECT, () => this.handleConnect())
+    this.socket.on(SocketEvents.Client.RECONNECT, () => this.handleReconnect())
+    this.socket.on(SocketEvents.Client.DISCONNECT, () =>
+      this.handleDisconnect()
+    )
+  }
 
-    this.socket.on(SocketEvents.Client.RECONNECT, () => {
-      console.log(`Reconnected with player ID: ${this.playerId}`)
-      this.registerPlayer()
-    })
-
-    this.socket.on(SocketEvents.Client.DISCONNECT, () => {
-      console.log('Disconnected. Trying to reconnect...')
-    })
+  handleConnect() {
+    console.log(`Connected with player ID: ${this.playerId}`)
+    this.registerPlayer()
   }
 
   registerPlayer() {
     this.socket.emit(SocketEvents.Client.REGISTER_PLAYER, this.playerId)
+  }
+
+  handleReconnect() {
+    console.log(`Reconnected with player ID: ${this.playerId}`)
+    this.registerPlayer()
+  }
+
+  handleDisconnect() {
+    console.log('Disconnected. Trying to reconnect...')
   }
 }

@@ -1,3 +1,5 @@
+import { SocketEvents } from '/shared/src/index.js'
+
 export class ClientPing {
   constructor(socket) {
     this.socket = socket
@@ -6,17 +8,20 @@ export class ClientPing {
   }
 
   createPingDiv() {
-    let pingDiv = document.getElementById('ping')
+    const id = 'ping'
+    let pingDiv = document.getElementById(id)
     if (!pingDiv) {
       pingDiv = document.createElement('div')
-      pingDiv.id = 'ping'
+      pingDiv.id = id
       document.body.appendChild(pingDiv)
     }
     return pingDiv
   }
 
   init() {
-    this.socket.on('ping', (message) => this.handlePing(message))
+    this.socket.on(SocketEvents.Client.PING, (message) =>
+      this.handlePing(message)
+    )
   }
 
   handlePing(message) {

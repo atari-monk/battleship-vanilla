@@ -9,8 +9,6 @@ export class PlayerSessionService {
 
   initializeSocketEvents() {
     this.io.on(SocketEvents.Server.CONNECTION, (socket) => {
-      console.log('New connection: ' + socket.id)
-
       socket.on(SocketEvents.Client.REGISTER_PLAYER, (playerId) => {
         this.registerPlayer(socket, playerId)
       })
@@ -22,23 +20,23 @@ export class PlayerSessionService {
   }
 
   registerPlayer(socket, playerId) {
-    console.log('Player connected with ID: ' + playerId)
+    console.log(`Connected with playerID: ${playerId}, socketID: ${socket.id}`)
 
     this.playerSessions[playerId] = socket.id
 
-    socket.emit(SocketEvents.Server.WELCOME, `Welcome back, player ${playerId}`)
+    //socket.emit(SocketEvents.Server.WELCOME, `Welcome back, player ${playerId}`)
   }
 
   handleDisconnect(socket) {
-    console.log('Player disconnected: ' + socket.id)
-
     const playerId = Object.keys(this.playerSessions).find(
       (id) => this.playerSessions[id] === socket.id
     )
 
     if (playerId) {
       delete this.playerSessions[playerId]
-      console.log(`Player session removed for ID: ${playerId}`)
+      console.log(
+        `Disconnected with playerID: ${playerId}, socketID ${socket.id}`
+      )
     }
   }
 }

@@ -1,5 +1,6 @@
 export const SocketEvents = {
   Client: {
+    PING: 'ping',
     CONNECT: 'connect',
     RECONNECT: 'reconnect',
     DISCONNECT: 'disconnect',
@@ -7,6 +8,5 @@ export const SocketEvents = {
   },
   Server: {
     CONNECTION: 'connection',
-    WELCOME: 'welcome',
   },
 }
