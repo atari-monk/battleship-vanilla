@@ -6,5 +6,8 @@
   "scripts": {},
   "keywords": [],
   "author": "",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "shared": "*"
+  }
 }
