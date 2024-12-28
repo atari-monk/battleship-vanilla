@@ -23,8 +23,6 @@ export class PlayerSessionService {
     console.log(`Connected with playerID: ${playerId}, socketID: ${socket.id}`)
 
     this.playerSessions[playerId] = socket.id
-
-    //socket.emit(SocketEvents.Server.WELCOME, `Welcome back, player ${playerId}`)
   }
 
   handleDisconnect(socket) {
