@@ -1,9 +1,9 @@
 import { SocketEvents } from 'shared'
 
 export class ConnectService {
-  constructor(io) {
+  constructor(io, dataService) {
     this.io = io
-    this.playerSessions = {}
+    this.dataService = dataService
     this.initializeSocketEvents()
   }
 
@@ -22,18 +22,20 @@ export class ConnectService {
   registerPlayer(socket, playerId) {
     console.log(`Connected with playerID: ${playerId}, socketID: ${socket.id}`)
 
-    this.playerSessions[playerId] = socket.id
+    try {
+      this.dataService.addPlayer(playerId, socket.id)
+    } catch (error) {
+      console.error(`Error registering player: ${error.message}`)
+    }
   }
 
   handleDisconnect(socket) {
-    const playerId = Object.keys(this.playerSessions).find(
-      (id) => this.playerSessions[id] === socket.id
-    )
+    const playerId = this.dataService.getPlayerIdBySocket(socket.id)
 
     if (playerId) {
-      delete this.playerSessions[playerId]
+      this.dataService.removePlayer(playerId)
       console.log(
-        `Disconnected with playerID: ${playerId}, socketID ${socket.id}`
+        `Disconnected with playerID: ${playerId}, socketID: ${socket.id}`
       )
     }
   }

@@ -1,5 +1,9 @@
-export class DataService {
+import { IDataService } from './IDataService.js'
+import { DataModel } from './DataModel.js'
+
+export class DataService extends IDataService {
   constructor() {
+    super()
     this.players = new Map()
   }
 
@@ -7,12 +11,18 @@ export class DataService {
     if (this.players.has(playerID)) {
       throw new Error(`Player with ID ${playerID} already exists.`)
     }
-    const player = new PlayerDataModel(playerID, socketID)
+    const player = new DataModel(playerID, socketID)
     this.players.set(playerID, player)
   }
 
   getPlayer(playerID) {
     return this.players.get(playerID) || null
+  }
+
+  getPlayerIdBySocket(socketID) {
+    const players = this.listPlayers()
+    const player = players.find((p) => p.socketID === socketID)
+    return player ? player.playerID : null
   }
 
   updateSocketID(playerID, newSocketID) {
