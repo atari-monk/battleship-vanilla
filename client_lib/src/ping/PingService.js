@@ -1,6 +1,6 @@
 import { SocketEvents } from '/shared/src/index.js'
 
-export class ClientPing {
+export class PingService {
   constructor(socket) {
     this.socket = socket
     this.pingDiv = this.createPingDiv()

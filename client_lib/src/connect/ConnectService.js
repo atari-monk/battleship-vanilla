@@ -1,6 +1,6 @@
 import { SocketEvents } from '/shared/src/index.js'
 
-export class SocketService {
+export class ConnectService {
   constructor(socket, playerId) {
     this.socket = socket
     this.playerId = playerId

@@ -4,7 +4,7 @@ import { Server } from 'socket.io'
 import cors from 'cors'
 import { SocketEvents } from 'shared'
 
-export class SocketServer {
+export class GameServer {
   constructor(port = 3000) {
     this.port = port
     this.app = express()

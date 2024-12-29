@@ -1,3 +1,3 @@
-export * from './server/SocketServer.js'
+export * from './server/GameServer.js'
 export * from './ping/pingHandler.js'
-export * from './reconnect/PlayerSessionService.js'
+export * from './connect/ConnectService.js'

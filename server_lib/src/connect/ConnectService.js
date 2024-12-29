@@ -1,6 +1,6 @@
 import { SocketEvents } from 'shared'
 
-export class PlayerSessionService {
+export class ConnectService {
   constructor(io) {
     this.io = io
     this.playerSessions = {}

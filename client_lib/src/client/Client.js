@@ -1,4 +1,4 @@
-export class SocketClient {
+export class Client {
   constructor(url, options) {
     this.url = url
     this.options = options

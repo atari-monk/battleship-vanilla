@@ -1,11 +1,10 @@
-import { SocketServer, PlayerSessionService, pingHandler } from 'server_lib'
+import { GameServer, ConnectService, pingHandler } from 'server_lib'
 
-const socketServer = new SocketServer(3000)
+const server = new GameServer(3000)
 
-socketServer.registerHandler((socket) => {
+server.registerHandler((socket) => {
   pingHandler(socket)
 })
+new ConnectService(server.io)
 
-new PlayerSessionService(socketServer.io)
-
-socketServer.start()
+server.start()
