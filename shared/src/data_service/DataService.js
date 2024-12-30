@@ -43,4 +43,37 @@ export class DataService extends IDataService {
   listPlayers() {
     return Array.from(this.players.values())
   }
+
+  getPlayerGrid(playerID) {
+    const player = this.players.get(playerID)
+    if (!player) {
+      throw new Error(`Player with ID ${playerID} not found.`)
+    }
+    return player.grid.getGridState()
+  }
+
+  isPlacementValid(playerID, startX, startY, length, direction) {
+    const player = this.players.get(playerID)
+    if (!player) {
+      throw new Error(`Player with ID ${playerID} not found.`)
+    }
+
+    return player.grid.isPlacementValid(startX, startY, length, direction)
+  }
+
+  placeShip(playerID, startX, startY, length, direction) {
+    const player = this.players.get(playerID)
+    if (!player) {
+      throw new Error(`Player with ID ${playerID} not found.`)
+    }
+    player.grid.placeShip(startX, startY, length, direction)
+  }
+
+  attackPlayer(playerID, x, y) {
+    const player = this.players.get(playerID)
+    if (!player) {
+      throw new Error(`Player with ID ${playerID} not found.`)
+    }
+    return player.grid.attack(x, y)
+  }
 }

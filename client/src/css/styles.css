@@ -15,3 +15,15 @@ body {
   font-size: 14px;
   z-index: 1000;
 }
+
+.battleship-grid {
+  margin: 20px 0;
+}
+
+.grid-cell {
+  display: inline-block;
+}
+
+.battleship-controls button {
+  margin: 10px 0;
+}
