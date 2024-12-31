@@ -34,7 +34,7 @@ export class BattleGrid {
           x,
           y,
           () => this.renderGrid(),
-          (message) => alert(message)
+          (message) => console.log(message)
         )
       },
       (cellStatus) => {
