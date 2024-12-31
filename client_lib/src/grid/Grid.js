@@ -2,10 +2,9 @@ export class Grid {
   constructor(container) {
     this.container = container
     this.gridElement = null
-    this.getCellColor = null // Placeholder for getCellColor function
+    this.getCellColor = null
   }
 
-  // Initialize the grid with state and event handlers
   init(
     gridState,
     onCellMouseEnter,
@@ -25,12 +24,10 @@ export class Grid {
     this.container.appendChild(this.gridElement)
   }
 
-  // Clears the container element before rendering a new grid
   clearContainer() {
     this.container.innerHTML = ''
   }
 
-  // Creates the grid element with appropriate styles
   createGridElement(gridState) {
     this.gridElement = document.createElement('div')
     this.gridElement.classList.add('battleship-grid')
@@ -39,12 +36,10 @@ export class Grid {
     this.gridElement.style.gap = '0px'
   }
 
-  // Sets the function to determine the color of a cell
   setCellColorFunction(getCellColor) {
     this.getCellColor = getCellColor
   }
 
-  // Populates the grid with cells based on the grid state
   populateGrid(gridState, onCellMouseEnter, onCellMouseLeave, onCellClick) {
     gridState.forEach((row, x) => {
       row.forEach((cellStatus, y) => {
@@ -62,7 +57,6 @@ export class Grid {
     })
   }
 
-  // Creates a single cell element and applies styles
   createCell(x, y, cellStatus) {
     const cell = document.createElement('div')
     cell.classList.add('grid-cell')
@@ -75,7 +69,6 @@ export class Grid {
     return cell
   }
 
-  // Adds event listeners to a cell for mouse interactions
   addCellEventListeners(
     cell,
     x,
@@ -95,7 +88,6 @@ export class Grid {
     }
   }
 
-  // Returns the cell element for a specific coordinate
   getCellElement(x, y) {
     return this.gridElement.querySelector(
       `.grid-cell[data-x="${x}"][data-y="${y}"]`
