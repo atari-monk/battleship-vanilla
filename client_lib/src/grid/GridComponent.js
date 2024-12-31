@@ -1,10 +1,8 @@
 export class GridComponent {
-  constructor(dataService, playerID, fleet) {
+  constructor(dataService, playerID, fleetPlacement) {
     this.dataService = dataService
     this.playerID = playerID
-    this.fleet = fleet
-    this.currentShipIndex = 0
-    this.placementDirection = 'horizontal'
+    this.fleetPlacement = fleetPlacement
     this.container = null
   }
 
@@ -37,9 +35,25 @@ export class GridComponent {
         cell.style.border = '1px solid #ccc'
         cell.style.backgroundColor = this.getCellColor(cellStatus)
 
-        cell.addEventListener('mouseenter', () => this.previewPlacement(x, y))
-        cell.addEventListener('mouseleave', () => this.clearPreview(x, y))
-        cell.addEventListener('click', () => this.placeShip(x, y))
+        cell.addEventListener('mouseenter', () =>
+          this.fleetPlacement.previewPlacement(x, y, (x, y) =>
+            this.getCellElement(x, y)
+          )
+        )
+        cell.addEventListener('mouseleave', () =>
+          this.fleetPlacement.clearPreview(x, y, (x, y) =>
+            this.getCellElement(x, y)
+          )
+        )
+        cell.addEventListener('click', () =>
+          this.fleetPlacement.placeShip(
+            x,
+            y,
+            () => this.renderGrid(),
+            () => this.renderControls(),
+            (message) => alert(message)
+          )
+        )
 
         gridElement.appendChild(cell)
       })
@@ -53,22 +67,27 @@ export class GridComponent {
     controlsElement.classList.add('battleship-controls')
 
     const directionButton = document.createElement('button')
-    directionButton.textContent = `Direction: ${this.placementDirection}`
+    directionButton.textContent = `Direction: ${this.fleetPlacement.placementDirection}`
     directionButton.addEventListener('click', () => {
-      this.placementDirection =
-        this.placementDirection === 'horizontal' ? 'vertical' : 'horizontal'
-      directionButton.textContent = `Direction: ${this.placementDirection}`
+      this.fleetPlacement.togglePlacementDirection()
+      directionButton.textContent = `Direction: ${this.fleetPlacement.placementDirection}`
     })
 
     const infoElement = document.createElement('p')
     infoElement.textContent = `Place ship of size: ${
-      this.fleet[this.currentShipIndex]
+      this.fleetPlacement.fleet[this.fleetPlacement.currentShipIndex]
     }`
 
     controlsElement.appendChild(directionButton)
     controlsElement.appendChild(infoElement)
 
     this.container.appendChild(controlsElement)
+  }
+
+  getCellElement(x, y) {
+    return this.container.querySelector(
+      `.grid-cell[data-x="${x}"][data-y="${y}"]`
+    )
   }
 
   getCellColor(cellStatus) {
@@ -82,93 +101,5 @@ export class GridComponent {
       default:
         return 'white'
     }
-  }
-
-  previewPlacement(startX, startY) {
-    const shipSize = this.fleet[this.currentShipIndex]
-    const gridSize = this.dataService.getPlayerGrid(this.playerID).length
-    const valid = this.dataService.isPlacementValid(
-      this.playerID,
-      startX,
-      startY,
-      shipSize,
-      this.placementDirection
-    )
-
-    for (let i = 0; i < shipSize; i++) {
-      const x = startX + (this.placementDirection === 'horizontal' ? i : 0)
-      const y = startY + (this.placementDirection === 'vertical' ? i : 0)
-
-      if (x >= gridSize || y >= gridSize) {
-        break
-      }
-
-      const cell = this.getCellElement(x, y)
-      if (cell) {
-        const cellStatus = this.dataService.getPlayerGrid(this.playerID)[x][y]
-        if (cellStatus === 'ship') {
-          cell.style.backgroundColor = 'blue'
-        } else {
-          cell.style.backgroundColor = valid ? 'green' : 'red'
-        }
-      }
-    }
-  }
-
-  clearPreview(startX, startY) {
-    const shipSize = this.fleet[this.currentShipIndex]
-    const gridSize = this.dataService.getPlayerGrid(this.playerID).length
-
-    for (let i = 0; i < shipSize; i++) {
-      const x = startX + (this.placementDirection === 'horizontal' ? i : 0)
-      const y = startY + (this.placementDirection === 'vertical' ? i : 0)
-
-      if (x >= gridSize || y >= gridSize) {
-        break
-      }
-
-      const cell = this.getCellElement(x, y)
-      if (cell) {
-        const cellStatus = this.dataService.getPlayerGrid(this.playerID)[x][y]
-        cell.style.backgroundColor = this.getCellColor(cellStatus)
-      }
-    }
-  }
-
-  placeShip(startX, startY) {
-    const shipSize = this.fleet[this.currentShipIndex]
-    const valid = this.dataService.isPlacementValid(
-      this.playerID,
-      startX,
-      startY,
-      shipSize,
-      this.placementDirection
-    )
-
-    if (valid) {
-      this.dataService.placeShip(
-        this.playerID,
-        startX,
-        startY,
-        shipSize,
-        this.placementDirection
-      )
-
-      this.currentShipIndex++
-      if (this.currentShipIndex < this.fleet.length) {
-        this.renderGrid()
-        this.renderControls()
-      } else {
-        alert('All ships placed!')
-      }
-    } else {
-      alert('Invalid placement!')
-    }
-  }
-
-  getCellElement(x, y) {
-    return this.container.querySelector(
-      `.grid-cell[data-x="${x}"][data-y="${y}"]`
-    )
   }
 }

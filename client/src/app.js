@@ -5,6 +5,7 @@ import {
   IdService,
   ConnectService,
   GridComponent,
+  FleetPlacement,
 } from '/client_lib/src/index.js'
 
 const client = new Client('http://localhost:3000', {
@@ -21,5 +22,10 @@ new ConnectService(socket, playerId)
 
 const dataService = new DataService()
 dataService.addPlayer(playerId, socket.id)
-const gridComponent = new GridComponent(dataService, playerId, [5, 4, 3, 3, 2])
+const fleetPlacement = new FleetPlacement(
+  dataService,
+  playerId,
+  [5, 4, 3, 3, 2]
+)
+const gridComponent = new GridComponent(dataService, playerId, fleetPlacement)
 gridComponent.init(document.getElementById('battleship-container'))
