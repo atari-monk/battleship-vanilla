@@ -7,33 +7,28 @@ export class BattleGrid {
     this.grid = grid
   }
 
-  /**
-   * Initializes the BattleGrid.
-   * @param {HTMLElement} container - The container to render the grid and controls.
-   */
   init(container) {
     this.container = container
     this.container.innerHTML = ''
-
     this.renderGrid()
     this.renderControls()
   }
 
-  /**
-   * Renders the battle grid.
-   */
   renderGrid() {
     const gridState = this.dataService.getPlayerGrid(this.playerID)
 
     this.grid.init(
       gridState,
-      (x, y) => {}, // No hover effects needed for battle mode
-      (x, y) => {}, // No hover-clear effects needed for battle mode
+      () => {},
+      () => {},
       (x, y) => {
         this.battle.attack(
           x,
           y,
-          () => this.renderGrid(),
+          () => {
+            this.renderGrid()
+            this.renderControls()
+          },
           (message) => console.log(message)
         )
       },
@@ -52,9 +47,6 @@ export class BattleGrid {
     )
   }
 
-  /**
-   * Renders controls for the battle mode.
-   */
   renderControls() {
     const controlsElement = document.createElement('div')
     controlsElement.classList.add('battleship-controls')
@@ -65,7 +57,6 @@ export class BattleGrid {
     } turn.`
 
     controlsElement.appendChild(infoElement)
-
     this.container.appendChild(controlsElement)
   }
 }
