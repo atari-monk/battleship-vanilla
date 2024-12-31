@@ -15,7 +15,7 @@ export class Fleet {
   previewPlacement(startX, startY, getCellElement) {
     const shipSize = this.fleet[this.currentShipIndex]
     const gridSize = this.dataService.getPlayerGrid(this.playerID).length
-    const valid = this.dataService.isPlacementValid(
+    const isValidPlacement = this.dataService.isPlacementValid(
       this.playerID,
       startX,
       startY,
@@ -24,21 +24,17 @@ export class Fleet {
     )
 
     for (let i = 0; i < shipSize; i++) {
-      const x = startX + (this.placementDirection === 'horizontal' ? i : 0)
-      const y = startY + (this.placementDirection === 'vertical' ? i : 0)
+      const [x, y] = this.getCoordinates(startX, startY, i)
 
-      if (x >= gridSize || y >= gridSize) {
-        break
-      }
+      if (x >= gridSize || y >= gridSize) break
 
       const cell = getCellElement(x, y)
       if (cell) {
         const cellStatus = this.dataService.getPlayerGrid(this.playerID)[x][y]
-        if (cellStatus === 'ship') {
-          cell.style.backgroundColor = 'blue'
-        } else {
-          cell.style.backgroundColor = valid ? 'green' : 'red'
-        }
+        cell.style.backgroundColor = this.getCellBackgroundColor(
+          cellStatus,
+          isValidPlacement
+        )
       }
     }
   }
@@ -46,15 +42,9 @@ export class Fleet {
   clearPreview(startX, startY, getCellElement) {
     const shipSize = this.fleet[this.currentShipIndex]
     const gridSize = this.dataService.getPlayerGrid(this.playerID).length
-
     for (let i = 0; i < shipSize; i++) {
-      const x = startX + (this.placementDirection === 'horizontal' ? i : 0)
-      const y = startY + (this.placementDirection === 'vertical' ? i : 0)
-
-      if (x >= gridSize || y >= gridSize) {
-        break
-      }
-
+      const [x, y] = this.getCoordinates(startX, startY, i)
+      if (x >= gridSize || y >= gridSize) break
       const cell = getCellElement(x, y)
       if (cell) {
         const cellStatus = this.dataService.getPlayerGrid(this.playerID)[x][y]
@@ -63,9 +53,9 @@ export class Fleet {
     }
   }
 
-  placeShip(startX, startY, renderGrid, renderControls, alertCallback) {
+  placeShip(startX, startY, renderGrid, renderControls, messageCallback) {
     const shipSize = this.fleet[this.currentShipIndex]
-    const valid = this.dataService.isPlacementValid(
+    const isValidPlacement = this.dataService.isPlacementValid(
       this.playerID,
       startX,
       startY,
@@ -73,7 +63,7 @@ export class Fleet {
       this.placementDirection
     )
 
-    if (valid) {
+    if (isValidPlacement) {
       this.dataService.placeShip(
         this.playerID,
         startX,
@@ -87,11 +77,16 @@ export class Fleet {
         renderGrid()
         renderControls()
       } else {
-        alertCallback('All ships placed!')
+        messageCallback('All ships placed!')
       }
     } else {
-      alertCallback('Invalid placement!')
+      messageCallback('Invalid placement!')
     }
+  }
+
+  getCellBackgroundColor(cellStatus, isValidPlacement) {
+    if (cellStatus === 'ship') return 'blue'
+    return isValidPlacement ? 'green' : 'red'
   }
 
   getCellColor(cellStatus) {
@@ -105,5 +100,11 @@ export class Fleet {
       default:
         return 'white'
     }
+  }
+
+  getCoordinates(startX, startY, offset) {
+    const x = startX + (this.placementDirection === 'horizontal' ? offset : 0)
+    const y = startY + (this.placementDirection === 'vertical' ? offset : 0)
+    return [x, y]
   }
 }

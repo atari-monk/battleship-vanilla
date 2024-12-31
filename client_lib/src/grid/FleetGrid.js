@@ -34,7 +34,7 @@ export class FleetGrid {
           y,
           () => this.renderGrid(),
           () => this.renderControls(),
-          (message) => alert(message)
+          (message) => console.log(message)
         ),
       (cellStatus) => {
         switch (cellStatus) {
