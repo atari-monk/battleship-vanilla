@@ -4,8 +4,11 @@ import {
   PingService,
   IdService,
   ConnectService,
-  GridComponent,
-  FleetPlacement,
+  Grid,
+  Fleet,
+  FleetGrid,
+  Battle,
+  BattleGrid,
 } from '/client_lib/src/index.js'
 
 const client = new Client('http://localhost:3000', {
@@ -22,10 +25,17 @@ new ConnectService(socket, playerId)
 
 const dataService = new DataService()
 dataService.addPlayer(playerId, socket.id)
-const fleetPlacement = new FleetPlacement(
-  dataService,
-  playerId,
-  [5, 4, 3, 3, 2]
-)
-const gridComponent = new GridComponent(dataService, playerId, fleetPlacement)
-gridComponent.init(document.getElementById('battleship-container'))
+
+const container = document.getElementById('battleship-container')
+const grid = new Grid(container)
+
+const fleet = new Fleet(dataService, playerId, [5, 4, 3, 3, 2])
+const fleetGrid = new FleetGrid(dataService, playerId, grid, fleet)
+fleetGrid.init(container)
+
+const container2 = document.getElementById('battleship-container-2')
+const grid2 = new Grid(container2)
+
+const battle = new Battle(dataService, playerId, playerId)
+const battleGrid = new BattleGrid(dataService, playerId, grid2, battle)
+battleGrid.init(container2)

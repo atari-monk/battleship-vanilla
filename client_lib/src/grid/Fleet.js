@@ -1,4 +1,4 @@
-export class FleetPlacement {
+export class Fleet {
   constructor(dataService, playerID, fleet) {
     this.dataService = dataService
     this.playerID = playerID
