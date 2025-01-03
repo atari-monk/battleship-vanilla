@@ -5,8 +5,10 @@ export const SocketEvents = {
     RECONNECT: 'reconnect',
     DISCONNECT: 'disconnect',
     REGISTER_PLAYER: 'registerPlayer',
+    SET_FLEET: 'setFleet',
   },
   Server: {
     CONNECTION: 'connection',
+    SET_FLEET: 'setFleet',
   },
 }

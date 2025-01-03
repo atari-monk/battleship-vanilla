@@ -1,6 +1,7 @@
 export class Fleet {
-  constructor(dataService, playerID, fleet) {
+  constructor(dataService, playerID, fleet, fleetService) {
     this.dataService = dataService
+    this.fleetService = fleetService
     this.playerID = playerID
     this.fleet = fleet
     this.currentShipIndex = 0
@@ -78,6 +79,7 @@ export class Fleet {
         renderControls()
       } else {
         messageCallback('All ships placed!')
+        this.fleetService.emitSetFleet()
       }
     } else {
       messageCallback('Invalid placement!')

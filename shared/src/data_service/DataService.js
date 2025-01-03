@@ -4,19 +4,23 @@ import { DataModel } from './DataModel.js'
 export class DataService extends IDataService {
   constructor() {
     super()
-    this.players = new Map()
+    this._players = new Map()
+  }
+
+  get players() {
+    return this._players
   }
 
   addPlayer(playerID, socketID) {
-    if (this.players.has(playerID)) {
+    if (this._players.has(playerID)) {
       throw new Error(`Player with ID ${playerID} already exists.`)
     }
     const player = new DataModel(playerID, socketID)
-    this.players.set(playerID, player)
+    this._players.set(playerID, player)
   }
 
   getPlayer(playerID) {
-    return this.players.get(playerID) || null
+    return this._players.get(playerID) || null
   }
 
   getPlayerIdBySocket(socketID) {
@@ -26,7 +30,7 @@ export class DataService extends IDataService {
   }
 
   updateSocketID(playerID, newSocketID) {
-    const player = this.players.get(playerID)
+    const player = this._players.get(playerID)
     if (!player) {
       throw new Error(`Player with ID ${playerID} not found.`)
     }
@@ -34,18 +38,18 @@ export class DataService extends IDataService {
   }
 
   removePlayer(playerID) {
-    if (!this.players.has(playerID)) {
+    if (!this._players.has(playerID)) {
       throw new Error(`Player with ID ${playerID} not found.`)
     }
-    this.players.delete(playerID)
+    this._players.delete(playerID)
   }
 
   listPlayers() {
-    return Array.from(this.players.values())
+    return Array.from(this._players.values())
   }
 
   getPlayerGrid(playerID) {
-    const player = this.players.get(playerID)
+    const player = this._players.get(playerID)
     if (!player) {
       throw new Error(`Player with ID ${playerID} not found.`)
     }
@@ -53,7 +57,7 @@ export class DataService extends IDataService {
   }
 
   isPlacementValid(playerID, startX, startY, length, direction) {
-    const player = this.players.get(playerID)
+    const player = this._players.get(playerID)
     if (!player) {
       throw new Error(`Player with ID ${playerID} not found.`)
     }
@@ -62,7 +66,7 @@ export class DataService extends IDataService {
   }
 
   placeShip(playerID, startX, startY, length, direction) {
-    const player = this.players.get(playerID)
+    const player = this._players.get(playerID)
     if (!player) {
       throw new Error(`Player with ID ${playerID} not found.`)
     }
@@ -70,7 +74,7 @@ export class DataService extends IDataService {
   }
 
   attackPlayer(playerID, x, y) {
-    const player = this.players.get(playerID)
+    const player = this._players.get(playerID)
     if (!player) {
       throw new Error(`Player with ID ${playerID} not found.`)
     }

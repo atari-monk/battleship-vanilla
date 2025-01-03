@@ -9,6 +9,7 @@ import {
   FleetGrid,
   Battle,
   BattleGrid,
+  FleetService,
 } from '/client_lib/src/index.js'
 
 const client = new Client('http://localhost:3000', {
@@ -29,7 +30,8 @@ dataService.addPlayer(playerId, socket.id)
 const container = document.getElementById('battleship-container')
 const grid = new Grid(container)
 
-const fleet = new Fleet(dataService, playerId, [5, 4, 3, 3, 2])
+const fleetService = new FleetService(socket, playerId, dataService)
+const fleet = new Fleet(dataService, playerId, [5, 4, 3, 3, 2], fleetService)
 const fleetGrid = new FleetGrid(dataService, playerId, grid, fleet)
 fleetGrid.init(container)
 
