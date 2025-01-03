@@ -16,12 +16,21 @@ export class FleetService {
   }
 
   handleSetFleet(socket, data) {
-    const { playerId, players } = data
+    const { player } = data
+    const { playerID } = player
     console.log(
-      `Handle set fleet with playerID: ${playerId}, socketID: ${socket.id}`
+      `Handle set fleet with playerID: ${playerID}, socketID: ${socket.id}`
     )
-
+    console.debug(data)
     try {
+      const serverPlayer = this.dataService.getPlayer(playerID)
+      //serverPlayer.grid.printGrid(playerID)
+      serverPlayer.grid.cells = player.grid.cells
+      //serverPlayer.grid.printGrid(playerID)
+      const players = this.dataService.players
+      for (const player of players.values()) {
+        player.grid.printGrid(playerID)
+      }
     } catch (error) {
       console.error(`Error setting fleet: ${error.message}`)
     }

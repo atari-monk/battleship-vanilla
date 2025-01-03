@@ -68,4 +68,28 @@ export class GridModel {
   getGridState() {
     return this.cells.map((row) => row.map((cell) => cell.status))
   }
+
+  printGrid(playerID) {
+    const fleet = this.cells
+      .map((row) =>
+        row
+          .map((cell) => {
+            switch (cell.status) {
+              case 'empty':
+                return '.'
+              case 'ship':
+                return 'S'
+              case 'hit':
+                return 'X'
+              case 'miss':
+                return 'O'
+              default:
+                return '?'
+            }
+          })
+          .join(' ')
+      )
+      .join('\n')
+    console.debug(`Player ${playerID} fleet: \n${fleet}`)
+  }
 }

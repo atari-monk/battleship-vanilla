@@ -79,7 +79,9 @@ export class Fleet {
         renderControls()
       } else {
         messageCallback('All ships placed!')
-        this.fleetService.emitSetFleet()
+        const player = this.dataService.getPlayer(this.playerID)
+        player.grid.printGrid(this.playerID)
+        this.fleetService.emitSetFleet(player)
       }
     } else {
       messageCallback('Invalid placement!')

@@ -7,11 +7,8 @@ export class FleetService {
     this.dataService = dataService
   }
 
-  emitSetFleet() {
+  emitSetFleet(player) {
     console.debug('emitSetFleet!')
-    this.socket.emit(SocketEvents.Client.SET_FLEET, {
-      playerId: this.playerId,
-      players: this.dataService.players,
-    })
+    this.socket.emit(SocketEvents.Client.SET_FLEET, { player })
   }
 }
