@@ -5,5 +5,6 @@ export class DataModel {
     this.playerID = playerID
     this.socketID = socketID
     this.grid = new GridModel(gridSize)
+    this.isFleetSet = false
   }
 }

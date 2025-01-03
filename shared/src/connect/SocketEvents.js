@@ -6,9 +6,11 @@ export const SocketEvents = {
     DISCONNECT: 'disconnect',
     REGISTER_PLAYER: 'registerPlayer',
     SET_FLEET: 'setFleet',
+    TURN: 'turn',
   },
   Server: {
     CONNECTION: 'connection',
     SET_FLEET: 'setFleet',
+    TURN: 'turn',
   },
 }

@@ -23,6 +23,10 @@ export class DataService extends IDataService {
     return this._players.get(playerID) || null
   }
 
+  getIds() {
+    return Array.from(this._players.keys())
+  }
+
   getPlayerIdBySocket(socketID) {
     const players = this.listPlayers()
     const player = players.find((p) => p.socketID === socketID)
