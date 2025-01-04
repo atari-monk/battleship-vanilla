@@ -29,8 +29,8 @@ export class FleetService {
       console.debug(this.dataService.getIds())
       if (this.isGameReady()) {
         const turnData = {
-          Nr: 1,
-          player: this.selectPlayer(),
+          turnNr: 1,
+          playerId: this.selectPlayer(),
         }
         console.debug('SocketEvents.Server.TURN', turnData)
         this.io.emit(SocketEvents.Server.TURN, turnData)
