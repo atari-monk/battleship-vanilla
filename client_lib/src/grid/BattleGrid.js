@@ -20,7 +20,11 @@ export class BattleGrid {
   }
 
   renderGrid() {
-    const gridState = this.dataService.getPlayerGrid(this.playerID)
+    const gridState = this.dataService.getEnemyGridForPlayer(this.playerID)
+    if (!gridState) {
+      console.debug('No enemy player in map')
+      return
+    }
 
     this.grid.init(
       gridState,

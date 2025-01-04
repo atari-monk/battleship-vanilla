@@ -27,6 +27,8 @@ export class BattleService {
       console.debug('atack result', result)
       this.io.emit(SocketEvents.ATTACK_RESULT, {
         attackedPlayerId: enemy.playerID,
+        x: targetX,
+        y: targetY,
         result,
       })
     } catch (error) {

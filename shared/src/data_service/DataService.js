@@ -71,6 +71,10 @@ export class DataService extends IDataService {
     return player.grid.getGridState()
   }
 
+  getEnemyGridForPlayer(playerID) {
+    return this.getEnemyOfPlayer(playerID)?.grid?.getGridState() || null
+  }
+
   isPlacementValid(playerID, startX, startY, length, direction) {
     const player = this._players.get(playerID)
     if (!player) {

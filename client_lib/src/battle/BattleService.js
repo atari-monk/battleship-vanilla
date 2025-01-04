@@ -38,7 +38,11 @@ export class BattleService {
   }
 
   handleAttackResult(data) {
-    const { attackedPlayerId, result } = data
-    console.debug('attackedPlayerId: result:', attackedPlayerId, result)
+    const { attackedPlayerId, x, y, result } = data
+    console.debug('handleAttackResult:', data)
+    const attacked = this.dataService.getPlayer(attackedPlayerId)
+    console.debug('attacked:', attacked)
+    attacked.grid.cells[x][y] = result
+    this.renderCallback()
   }
 }
