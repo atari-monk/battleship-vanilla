@@ -1,0 +1,2 @@
+- disable atack if not ur turn
+- send atack coords to server

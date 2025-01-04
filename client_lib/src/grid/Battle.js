@@ -1,28 +1,35 @@
 export class Battle {
-  constructor(dataService, player1ID, player2ID) {
+  constructor(dataService, playerID) {
     this.dataService = dataService
-    this.player1ID = player1ID
-    this.player2ID = player2ID
-    this.currentPlayer = player1ID
+    this.playerID = playerID
+    this.player = this.dataService.getPlayer(playerID)
   }
 
-  switchTurn() {
-    this.currentPlayer = this.getOpponentID()
+  setBattleService(battleService) {
+    this.battleService = battleService
   }
 
   attack(targetX, targetY, renderGrid, messageCallback) {
-    const opponentID = this.getOpponentID()
-
-    const grid = this.dataService.getPlayerGrid(opponentID)
-    if (this.isCellAlreadyAttacked(grid, targetX, targetY)) {
-      messageCallback('Cell already attacked!')
+    if (!this.player.isYourTurn) {
+      console.log('not your turn')
       return
     }
 
-    const attackResult = this.attackCell(opponentID, targetX, targetY)
-    this.handleAttackResult(attackResult, opponentID, messageCallback)
+    if (this.battleService)
+      this.battleService.attack(this.playerID, targetX, targetY)
+    else {
+      console.warn('battleService undefined')
+    }
+    //const grid = this.dataService.getPlayerGrid(opponentID)
+    // if (this.isCellAlreadyAttacked(grid, targetX, targetY)) {
+    //   messageCallback('Cell already attacked!')
+    //   return
+    // }
 
-    renderGrid()
+    // const attackResult = this.attackCell(opponentID, targetX, targetY)
+    // this.handleAttackResult(attackResult, opponentID, messageCallback)
+
+    // renderGrid()
   }
 
   isCellAlreadyAttacked(grid, targetX, targetY) {
@@ -49,11 +56,5 @@ export class Battle {
   isFleetDestroyed(playerID) {
     const grid = this.dataService.getPlayerGrid(playerID)
     return grid.every((row) => row.every((cell) => cell !== 'ship'))
-  }
-
-  getOpponentID() {
-    return this.currentPlayer === this.player1ID
-      ? this.player2ID
-      : this.player1ID
   }
 }

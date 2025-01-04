@@ -39,7 +39,13 @@ fleetGrid.init(container)
 const container2 = document.getElementById('battleship-container-2')
 const grid2 = new Grid(container2)
 
-const battle = new Battle(dataService, playerId, playerId)
+const battle = new Battle(dataService, playerId)
 const battleGrid = new BattleGrid(dataService, playerId, grid2, battle)
-new BattleService(socket, playerId, dataService, battleGrid.refresh)
+const battleService = new BattleService(
+  socket,
+  playerId,
+  dataService,
+  battleGrid.refresh
+)
+battle.setBattleService(battleService)
 battleGrid.init(container2)

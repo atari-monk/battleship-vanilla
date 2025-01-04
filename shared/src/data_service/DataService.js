@@ -29,6 +29,11 @@ export class DataService extends IDataService {
     return this._players.get(playerID) || null
   }
 
+  getEnemyOfPlayer(playerID) {
+    const players = this.listPlayers()
+    return players.find((p) => p.playerID !== playerID) || null
+  }
+
   getIds() {
     return Array.from(this._players.keys())
   }

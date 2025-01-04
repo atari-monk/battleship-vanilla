@@ -12,6 +12,9 @@ export class BattleService {
 
   setupListeners() {
     this.socket.on(SocketEvents.Client.TURN, (data) => this.handleTurn(data))
+    this.socket.on(SocketEvents.ATTACK_RESULT, (data) =>
+      this.handleAttackResult(data)
+    )
   }
 
   handleTurn(data) {
@@ -27,5 +30,15 @@ export class BattleService {
     console.debug(player.playerID, playerId)
     console.debug('moj playerrrrrr', player)
     this.renderCallback()
+  }
+
+  attack(playerId, targetX, targetY) {
+    console.debug('attack from client')
+    this.socket.emit(SocketEvents.ATTACK, { playerId, targetX, targetY })
+  }
+
+  handleAttackResult(data) {
+    const { attackedPlayerId, result } = data
+    console.debug('attackedPlayerId: result:', attackedPlayerId, result)
   }
 }
