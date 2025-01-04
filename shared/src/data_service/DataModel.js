@@ -6,5 +6,6 @@ export class DataModel {
     this.socketID = socketID
     this.grid = new GridModel(gridSize)
     this.isFleetSet = false
+    this.isYourTurn = false
   }
 }

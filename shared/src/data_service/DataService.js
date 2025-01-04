@@ -19,6 +19,12 @@ export class DataService extends IDataService {
     this._players.set(playerID, player)
   }
 
+  addEnemy(playerID) {
+    if (this._players.has(playerID)) return
+    const player = new DataModel(playerID, '')
+    this._players.set(playerID, player)
+  }
+
   getPlayer(playerID) {
     return this._players.get(playerID) || null
   }

@@ -5,6 +5,11 @@ export class BattleGrid {
     this.battle = battle
     this.container = null
     this.grid = grid
+    this.refresh = () => {
+      this.container.innerHTML = ''
+      this.renderGrid()
+      this.renderControls()
+    }
   }
 
   init(container) {
@@ -52,8 +57,10 @@ export class BattleGrid {
     controlsElement.classList.add('battleship-controls')
 
     const infoElement = document.createElement('p')
+    const player = this.dataService.getPlayer(this.playerID)
+    console.debug('player.isYourTurn', player.isYourTurn)
     infoElement.textContent = `It's ${
-      this.battle.currentPlayer === this.playerID ? 'your' : "opponent's"
+      player.isYourTurn ? 'your' : "opponent's"
     } turn.`
 
     controlsElement.appendChild(infoElement)

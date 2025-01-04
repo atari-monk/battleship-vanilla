@@ -10,6 +10,7 @@ import {
   Battle,
   BattleGrid,
   FleetService,
+  BattleService,
 } from '/client_lib/src/index.js'
 
 const client = new Client('http://localhost:3000', {
@@ -40,4 +41,5 @@ const grid2 = new Grid(container2)
 
 const battle = new Battle(dataService, playerId, playerId)
 const battleGrid = new BattleGrid(dataService, playerId, grid2, battle)
+new BattleService(socket, playerId, dataService, battleGrid.refresh)
 battleGrid.init(container2)
