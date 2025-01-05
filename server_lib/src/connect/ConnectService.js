@@ -20,10 +20,18 @@ export class ConnectService {
   }
 
   registerPlayer(socket, playerId) {
-    console.log(`Connected with playerID: ${playerId}, socketID: ${socket.id}`)
+    console.log(`Connected with playerID: ${playerId}, socketID: ${socket.id}.`)
 
     try {
       this.dataService.addPlayer(playerId, socket.id)
+
+      if (this.dataService.players.size === 2) {
+        const ids = Array.from(this.dataService.players.keys())
+        console.log('There is 2 players connected.', ids)
+        this.io.emit(SocketEvents.SET_PLAYERS, {
+          players: ids,
+        })
+      }
     } catch (error) {
       console.error(`Error registering player: ${error.message}`)
     }

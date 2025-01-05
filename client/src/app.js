@@ -23,9 +23,11 @@ const socket = client.getSocket()
 
 new PingService(socket, 'messages')
 const playerId = new IdService().getId()
-new ConnectService(socket, playerId)
 
 const dataService = new DataService()
+
+new ConnectService(socket, playerId, dataService)
+
 dataService.addPlayer(playerId, socket.id)
 
 const container = document.getElementById('battleship-container')

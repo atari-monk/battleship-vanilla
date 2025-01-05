@@ -1,6 +1,7 @@
 export const SocketEvents = {
   ATTACK: 'attack',
   ATTACK_RESULT: 'attackResult',
+  SET_PLAYERS: 'setPlayers',
   Client: {
     PING: 'ping',
     CONNECT: 'connect',

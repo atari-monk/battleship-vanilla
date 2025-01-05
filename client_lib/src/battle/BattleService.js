@@ -20,7 +20,7 @@ export class BattleService {
   handleTurn(data) {
     const { turnNr, playerId } = data
     console.debug('turn', turnNr, playerId)
-    if (turnNr === 1 || turnNr === 2) this.dataService.addEnemy(playerId)
+    //if (turnNr === 1 || turnNr === 2) this.dataService.addEnemy(playerId)
     console.debug(this.dataService.players)
     const player = this.dataService.getPlayer(this.playerId)
     if (player.playerID === playerId) {

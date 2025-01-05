@@ -1,9 +1,10 @@
 import { SocketEvents } from '/shared/src/index.js'
 
 export class ConnectService {
-  constructor(socket, playerId) {
+  constructor(socket, playerId, dataService) {
     this.socket = socket
     this.playerId = playerId
+    this.dataService = dataService
 
     this.setupListeners()
   }
@@ -13,6 +14,9 @@ export class ConnectService {
     this.socket.on(SocketEvents.Client.RECONNECT, () => this.handleReconnect())
     this.socket.on(SocketEvents.Client.DISCONNECT, () =>
       this.handleDisconnect()
+    )
+    this.socket.on(SocketEvents.SET_PLAYERS, (data) =>
+      this.handleSetPlayers(data)
     )
   }
 
@@ -32,5 +36,16 @@ export class ConnectService {
 
   handleDisconnect() {
     console.log('Disconnected. Trying to reconnect...')
+  }
+
+  handleSetPlayers(data) {
+    const { players } = data
+    console.debug('handleSetPlayers', players)
+    for (const player of players) {
+      if (!this.dataService.players.has(player)) {
+        this.dataService.addPlayer(player, '')
+        console.debug('New player added', player)
+      }
+    }
   }
 }
