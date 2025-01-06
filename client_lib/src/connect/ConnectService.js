@@ -40,11 +40,10 @@ export class ConnectService {
 
   handleSetPlayers(data) {
     const { players } = data
-    console.debug('handleSetPlayers', players)
     for (const player of players) {
       if (!this.dataService.players.has(player)) {
         this.dataService.addPlayer(player, '')
-        console.debug('New player added', player)
+        console.debug('Enemy player added', player)
       }
     }
   }

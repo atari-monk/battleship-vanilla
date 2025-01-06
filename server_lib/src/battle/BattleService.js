@@ -10,21 +10,21 @@ export class BattleService {
   initializeSocketEvents() {
     this.io.on(SocketEvents.Server.CONNECTION, (socket) => {
       socket.on(SocketEvents.ATTACK, (data) => {
-        this.handleAttack(socket, data)
+        this.handleAttack(data)
+      })
+      socket.on(SocketEvents.TURN_END, (data) => {
+        this.handleTurnEnd(data)
       })
     })
   }
 
-  handleAttack(socket, data) {
+  handleAttack(data) {
+    console.debug('Handle SocketEvent.ATTACK')
     const { playerId, targetX, targetY } = data
-    console.log(
-      `Handle attack with playerId: ${playerId}, x: ${targetX}, y: ${targetY} from socketId: ${socket.id}`
-    )
     try {
       const enemy = this.dataService.getEnemyOfPlayer(playerId)
-      console.debug('enemy:', enemy)
       const result = enemy.grid.attack(targetX, targetY)
-      console.debug('atack result', result)
+      console.debug('Emit SocketEvent.ATTACK_RESULT')
       this.io.emit(SocketEvents.ATTACK_RESULT, {
         attackedPlayerId: enemy.playerID,
         x: targetX,
@@ -32,7 +32,15 @@ export class BattleService {
         result,
       })
     } catch (error) {
-      console.error(`Error in battle attack: ${error.message}`)
+      console.error(`Error: ${error.message}`)
     }
+  }
+
+  handleTurnEnd(data) {
+    console.debug('Handle SocketEvent.TURN_END')
+    const { playerId, turnNr } = data
+    const enemy = this.dataService.getEnemyOfPlayer(playerId)
+    console.debug('Emit SocketEvent.TURN')
+    this.io.emit(SocketEvents.TURN, { turnNr, playerId: enemy.playerID })
   }
 }

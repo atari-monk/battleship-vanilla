@@ -8,7 +8,7 @@ export class FleetService {
   }
 
   emitSetFleet(player) {
-    console.debug('emitSetFleet!')
-    this.socket.emit(SocketEvents.Client.SET_FLEET, { player })
+    console.debug('Emit SocketEvent.SET_FLEET')
+    this.socket.emit(SocketEvents.SET_FLEET, { player })
   }
 }

@@ -9,7 +9,7 @@ export class FleetService {
 
   initializeSocketEvents() {
     this.io.on(SocketEvents.Server.CONNECTION, (socket) => {
-      socket.on(SocketEvents.Client.SET_FLEET, (data) => {
+      socket.on(SocketEvents.SET_FLEET, (data) => {
         this.handleSetFleet(socket, data)
       })
     })
@@ -32,8 +32,7 @@ export class FleetService {
           turnNr: 1,
           playerId: this.selectPlayer(),
         }
-        console.debug('SocketEvents.Server.TURN', turnData)
-        this.io.emit(SocketEvents.Server.TURN, turnData)
+        this.io.emit(SocketEvents.TURN, turnData)
       }
     } catch (error) {
       console.error(`Error setting fleet: ${error.message}`)

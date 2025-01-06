@@ -6,7 +6,6 @@ export class BattleGrid {
     this.container = null
     this.grid = grid
     this.refresh = () => {
-      console.log('saddddddddddddddddddddddaaaaaaaaaaaaaaaaaaa')
       this.container.innerHTML = ''
       this.renderGrid()
       this.renderControls()
@@ -22,9 +21,7 @@ export class BattleGrid {
 
   renderGrid() {
     const gridState = this.dataService.getEnemyGridForPlayer(this.playerID)
-    console.debug('Atack result', gridState)
     if (!gridState) {
-      console.debug('No enemy player in map')
       return
     }
 
@@ -64,7 +61,6 @@ export class BattleGrid {
 
     const infoElement = document.createElement('p')
     const player = this.dataService.getPlayer(this.playerID)
-    console.debug('player.isYourTurn', player.isYourTurn)
     infoElement.textContent = `It's ${
       player.isYourTurn ? 'your' : "opponent's"
     } turn.`

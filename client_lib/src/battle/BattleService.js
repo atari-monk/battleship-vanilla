@@ -6,12 +6,13 @@ export class BattleService {
     this.playerId = playerId
     this.dataService = dataService
     this.renderCallback = renderCallback
-    console.debug('popatrz na mnie', this.playerId)
+    this.player = this.dataService.getPlayer(this.playerId)
+    this.turnNr = 0
     this.setupListeners()
   }
 
   setupListeners() {
-    this.socket.on(SocketEvents.Client.TURN, (data) => this.handleTurn(data))
+    this.socket.on(SocketEvents.TURN, (data) => this.handleTurn(data))
     this.socket.on(SocketEvents.ATTACK_RESULT, (data) =>
       this.handleAttackResult(data)
     )
@@ -19,31 +20,33 @@ export class BattleService {
 
   handleTurn(data) {
     const { turnNr, playerId } = data
-    console.debug('turn', turnNr, playerId)
-    //if (turnNr === 1 || turnNr === 2) this.dataService.addEnemy(playerId)
-    console.debug(this.dataService.players)
-    const player = this.dataService.getPlayer(this.playerId)
-    if (player.playerID === playerId) {
-      player.isYourTurn = true
-      console.debug('sdasdasdsadsadasd')
-    }
-    console.debug(player.playerID, playerId)
-    console.debug('moj playerrrrrr', player)
+    if (playerId !== this.player.playerID) return
+
+    this.turnNr = turnNr
+    this.player.isYourTurn = true
     this.renderCallback()
+    console.debug('Your Turn')
   }
 
   attack(playerId, targetX, targetY) {
-    console.debug('attack from client')
+    console.debug('Your attack')
     this.socket.emit(SocketEvents.ATTACK, { playerId, targetX, targetY })
   }
 
   handleAttackResult(data) {
     const { attackedPlayerId, x, y, result } = data
-    console.debug('handleAttackResult:', data)
+    if (attackedPlayerId === this.playerId) return
+
     const attacked = this.dataService.getPlayer(attackedPlayerId)
-    console.debug('attacked:', attacked)
     attacked.grid.cells[x][y].status = result
-    console.debug('Atack result', attacked.grid.cells)
+    this.player.isYourTurn = false
     this.renderCallback()
+
+    this.socket.emit(SocketEvents.TURN_END, {
+      playerId: this.playerId,
+      turnNr: this.turnNr++,
+    })
+    
+    console.debug('Your turn ends')
   }
 }
