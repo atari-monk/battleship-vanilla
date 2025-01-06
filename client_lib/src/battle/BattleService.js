@@ -42,7 +42,8 @@ export class BattleService {
     console.debug('handleAttackResult:', data)
     const attacked = this.dataService.getPlayer(attackedPlayerId)
     console.debug('attacked:', attacked)
-    attacked.grid.cells[x][y] = result
+    attacked.grid.cells[x][y].status = result
+    console.debug('Atack result', attacked.grid.cells)
     this.renderCallback()
   }
 }
