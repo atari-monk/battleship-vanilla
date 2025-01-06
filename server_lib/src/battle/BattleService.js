@@ -15,6 +15,9 @@ export class BattleService {
       socket.on(SocketEvents.TURN_END, (data) => {
         this.handleTurnEnd(data)
       })
+      socket.on(SocketEvents.END, (data) => {
+        this.handleEnd(data)
+      })
     })
   }
 
@@ -37,10 +40,15 @@ export class BattleService {
   }
 
   handleTurnEnd(data) {
-    console.debug('Handle SocketEvent.TURN_END')
     const { playerId, turnNr } = data
     const enemy = this.dataService.getEnemyOfPlayer(playerId)
-    console.debug('Emit SocketEvent.TURN')
+    console.debug('Turn:', turnNr)
     this.io.emit(SocketEvents.TURN, { turnNr, playerId: enemy.playerID })
+  }
+
+  handleEnd(data) {
+    const { turnNr, winFor } = data
+    console.debug('End game, turnNr:', turnNr)
+    this.io.emit(SocketEvents.END, { turnNr, winFor })
   }
 }

@@ -8,6 +8,8 @@ export class GridModel {
           .fill(null)
           .map(() => ({ status: 'empty' }))
       )
+    this.hitCount = 0
+    this.maxHits = 17
   }
 
   isPlacementValid(startX, startY, length, direction) {
@@ -58,6 +60,14 @@ export class GridModel {
 
     if (cell.status === 'ship') {
       cell.status = 'hit'
+
+      this.hitCount++
+
+      if (this.hitCount >= this.maxHits) {
+        console.log('Player has win! 17 hits have been reached.')
+        return 'win'
+      }
+
       return 'hit'
     } else {
       cell.status = 'miss'

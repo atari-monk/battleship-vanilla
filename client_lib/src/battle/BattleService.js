@@ -16,6 +16,7 @@ export class BattleService {
     this.socket.on(SocketEvents.ATTACK_RESULT, (data) =>
       this.handleAttackResult(data)
     )
+    this.socket.on(SocketEvents.END, (data) => this.handleEnd(data))
   }
 
   handleTurn(data) {
@@ -38,15 +39,26 @@ export class BattleService {
     if (attackedPlayerId === this.playerId) return
 
     const attacked = this.dataService.getPlayer(attackedPlayerId)
-    attacked.grid.cells[x][y].status = result
+    attacked.grid.cells[x][y].status = result === 'win' ? 'hit' : result
     this.player.isYourTurn = false
     this.renderCallback()
 
-    this.socket.emit(SocketEvents.TURN_END, {
-      playerId: this.playerId,
-      turnNr: this.turnNr++,
-    })
-    
-    console.debug('Your turn ends')
+    if (result === 'win') {
+      this.socket.emit(SocketEvents.END, {
+        turnNr: this.turnNr,
+        winFor: this.playerId,
+      })
+    } else {
+      this.socket.emit(SocketEvents.TURN_END, {
+        playerId: this.playerId,
+        turnNr: this.turnNr++
+      })
+      console.debug('Your turn ends')
+    }
+  }
+
+  handleEnd(data) {
+    const { turnNr, winFor } = data
+    console.debug('End game, turnNr:', turnNr, 'Player win:', winFor)
   }
 }

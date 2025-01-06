@@ -5,6 +5,7 @@ export const SocketEvents = {
   ATTACK_RESULT: 'attackResult',
   SET_PLAYERS: 'setPlayers',
   TURN_END: 'turnEnd',
+  END: 'end',
   Client: {
     PING: 'ping',
     CONNECT: 'connect',
