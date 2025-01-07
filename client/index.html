@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Battleship</title>
     <link rel="stylesheet" href="src/css/styles.css" />
+    <link rel="stylesheet" href="src/css/message.css" />
     <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
   </head>
   <body>
+    <div id="message-component" class="message-container">
+      <div id="message-box" class="message-box"></div>
+    </div>
     <div id="battleship-container"></div>
     <div id="battleship-container-2"></div>
     <script type="module" src="src/app.js"></script>

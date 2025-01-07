@@ -1,4 +1,5 @@
 import { SocketEvents } from '/shared/src/index.js'
+import { showMessage, messageType } from '../message/message.js'
 
 export class ConnectService {
   constructor(socket, playerId, dataService) {
@@ -21,8 +22,9 @@ export class ConnectService {
   }
 
   handleConnect() {
-    console.log(`Connected with player ID: ${this.playerId}`)
     this.registerPlayer()
+    console.log(`Connected with player ID: ${this.playerId}`)
+    showMessage('Connected!', messageType.info)
   }
 
   registerPlayer() {

@@ -1,3 +1,5 @@
+import { showMessage, messageType } from '../message/message.js'
+
 export class Client {
   constructor(url, options) {
     this.url = url
@@ -6,7 +8,20 @@ export class Client {
   }
 
   initialize() {
-    this.socket = io(this.url, this.options)
+    try {
+      this.socket = io(this.url, this.options)
+
+      this.socket.on('connect_error', (err) => {
+        showMessage(
+          'Cant connect to server, game is broken!',
+          messageType.error
+        )
+        this.socket = null
+      })
+    } catch (error) {
+      console.error('Failed to initialize socket')
+      this.socket = null
+    }
   }
 
   getSocket() {
