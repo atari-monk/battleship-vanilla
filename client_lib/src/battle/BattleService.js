@@ -1,4 +1,4 @@
-import { SocketEvents } from '/shared/src/index.js'
+import { SocketEvents } from '../../../shared/src/index.js'
 
 export class BattleService {
   constructor(socket, playerId, dataService, renderCallback) {
@@ -51,7 +51,7 @@ export class BattleService {
     } else {
       this.socket.emit(SocketEvents.TURN_END, {
         playerId: this.playerId,
-        turnNr: this.turnNr++
+        turnNr: this.turnNr++,
       })
       console.debug('Your turn ends')
     }

@@ -1,4 +1,4 @@
-import { SocketEvents } from '/shared/src/index.js'
+import { SocketEvents } from '../../../shared/src/index.js'
 
 export class PingService {
   constructor(socket) {

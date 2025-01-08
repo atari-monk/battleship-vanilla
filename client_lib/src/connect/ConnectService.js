@@ -1,4 +1,4 @@
-import { SocketEvents } from '/shared/src/index.js'
+import { SocketEvents } from '../../../shared/src/index.js'
 import { showMessage, messageType } from '../message/message.js'
 
 export class ConnectService {
