@@ -21,7 +21,6 @@ const client = new Client('http://localhost:3000', {
 client.initialize()
 const socket = client.getSocket()
 
-new PingService(socket, 'messages')
 const playerId = new IdService().getId()
 
 const dataService = new DataService()

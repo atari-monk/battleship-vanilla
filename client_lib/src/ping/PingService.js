@@ -28,3 +28,7 @@ export class PingService {
     this.pingDiv.textContent = message
   }
 }
+
+//usage:
+//client app.js
+//new PingService(socket, 'messages')
