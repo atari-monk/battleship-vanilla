@@ -1,0 +1,11 @@
+.battleship-grid {
+  margin: 0px 0px;
+}
+
+.grid-cell {
+  display: inline-block;
+}
+
+.battleship-controls button {
+  margin: 0px 0px;
+}
