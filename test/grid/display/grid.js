@@ -1,4 +1,4 @@
-import { Grid } from '../../client_lib/src/index.js'
+import { Grid } from '../../../client_lib/src/index.js'
 
 const container = document.getElementById('battleship-container')
 const gridGUI = new Grid(container)
@@ -12,7 +12,8 @@ const gridData = Array(size)
       .map(() => 'empty')
   )
 
-console.debug('gridData', gridData)
+console.log('Test to display grid.')
+console.log('Data format of grid:', gridData)
 
 gridGUI.init(
   gridData,
