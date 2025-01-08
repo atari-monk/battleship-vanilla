@@ -1,7 +1,6 @@
-import { DataService } from '/shared/src/index.js'
+import { DataService } from '../../shared/src/index.js'
 import {
   Client,
-  PingService,
   IdService,
   ConnectService,
   Grid,
@@ -11,7 +10,7 @@ import {
   BattleGrid,
   FleetService,
   BattleService,
-} from '/client_lib/src/index.js'
+} from '../../client_lib/src/index.js'
 
 const client = new Client('http://localhost:3000', {
   cors: {
